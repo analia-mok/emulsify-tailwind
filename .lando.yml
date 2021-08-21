@@ -1,0 +1,30 @@
+name: emulsify-tailwind
+recipe: drupal9
+config:
+  webroot: web
+  via: nginx
+  php: "8.0"
+  database: mariadb:10.4
+  composer_version: 2-latest
+
+services:
+  appserver:
+    xdebug: true
+    config:
+      php: .lando.php.ini
+    overrides:
+      environment:
+        PHP_IDE_CONFIG: "serverName=appserver"
+
+tooling:
+  xdebug-on:
+    service: appserver
+    description: Enable xdebug for nginx.
+    cmd: docker-php-ext-enable xdebug && pkill -o -USR2 php-fpm
+    user: root
+
+  xdebug-off:
+    service: appserver
+    description: Disable xdebug for nginx.
+    cmd: rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && pkill -o -USR2 php-fpm
+    user: root

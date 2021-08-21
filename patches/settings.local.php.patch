@@ -1,0 +1,80 @@
+--- web/sites/example.settings.local.php	(revision 20119acfa243df9802deca6cc1c610d79b29990b)
++++ web/sites/example.settings.local.php	(date 1593512165189)
+@@ -66,7 +66,7 @@
+  *
+  * Only use this setting once the site has been installed.
+  */
+-# $settings['cache']['bins']['render'] = 'cache.backend.null';
++$settings['cache']['bins']['render'] = 'cache.backend.null';
+
+ /**
+  * Disable caching for migrations.
+@@ -88,7 +88,7 @@
+  *
+  * Only use this setting once the site has been installed.
+  */
+-# $settings['cache']['bins']['page'] = 'cache.backend.null';
++$settings['cache']['bins']['page'] = 'cache.backend.null';
+
+ /**
+  * Disable Dynamic Page Cache.
+@@ -97,7 +97,7 @@
+  * cacheability metadata is present (and hence the expected behavior). However,
+  * in the early stages of development, you may want to disable it.
+  */
+-# $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
++$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+
+ /**
+  * Allow test modules and themes to be installed.
+@@ -130,26 +130,24 @@
+  */
+ $settings['skip_permissions_hardening'] = TRUE;
+
+-/**
+- * Exclude modules from configuration synchronization.
+- *
+- * On config export sync, no config or dependent config of any excluded module
+- * is exported. On config import sync, any config of any installed excluded
+- * module is ignored. In the exported configuration, it will be as if the
+- * excluded module had never been installed. When syncing configuration, if an
+- * excluded module is already installed, it will not be uninstalled by the
+- * configuration synchronization, and dependent configuration will remain
+- * intact. This affects only configuration synchronization; single import and
+- * export of configuration are not affected.
+- *
+- * Drupal does not validate or sanity check the list of excluded modules. For
+- * instance, it is your own responsibility to never exclude required modules,
+- * because it would mean that the exported configuration can not be imported
+- * anymore.
+- *
+- * This is an advanced feature and using it means opting out of some of the
+- * guarantees the configuration synchronization provides. It is not recommended
+- * to use this feature with modules that affect Drupal in a major way such as
+- * the language or field module.
+- */
+-# $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy'];
++$config['swiftmailer.transport']['transport'] = 'smtp';
++$config['swiftmailer.transport']['smtp_host'] = 'mailhog.emulsifytailwind.internal';
++$config['swiftmailer.transport']['smtp_port'] = '1025';
++$config['swiftmailer.transport']['smtp_encryption'] = '0';
++$config['swiftmailer.transport']['smtp_credential_provider'] = 'swiftmailer';
++$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['username'] = '';
++$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['password'] = '';
++
++if (getenv('LANDO') === 'ON') {
++  $lando_info = json_decode(getenv('LANDO_INFO'), true);
++  $settings['trusted_host_patterns'] = ['.*'];
++  $databases['default']['default'] = [
++    'driver' => 'mysql',
++    'database' => $lando_info['database']['creds']['database'],
++    'username' => $lando_info['database']['creds']['user'],
++    'password' => $lando_info['database']['creds']['password'] ?? '',
++    'host' => $lando_info['database']['internal_connection']['host'],
++    'port' => $lando_info['database']['internal_connection']['port'],
++  ];
++
++}
++
++$settings['file_private_path'] = 'sites/default/files/private';
++
