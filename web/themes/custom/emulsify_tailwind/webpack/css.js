@@ -1,1 +1,1 @@
-// Tailwind stuff later?
+import '../components/styles.css';

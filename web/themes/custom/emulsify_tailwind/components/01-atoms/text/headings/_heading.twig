@@ -3,30 +3,46 @@
  * Available variables:
  * - heading_level - the header level 1-6 (produces h1, h2, etc.)
  *
- * - heading_base_class - the base class
- * - heading_modifiers - array of modifiers to add to the base classname
- * - heading_blockname - blockname prepended to the base classname
- *
  * - heading - the content of the heading (typically text)
  *
  * - heading_url - (optional) the url the heading should poing to
  * - heading_link_attributes - key/value attributes to pass to link
- * - heading_link_base_class - override the link base class
- * - heading_link_modifiers - override the link modifiers
- * - heading_link_blockname - override the link block name (defaults to heading_base_class)
  */
 #}
-{% set heading_base_class = heading_base_class|default('h' ~ heading_level) %}
 
-<h{{ heading_level }} {{ bem(heading_base_class, heading_modifiers, heading_blockname) }}>
+{% set font_size = 'text-base' %}
+{% set font_weight = 'font-normal' %}
+{% set margin_bottom = "mb-8" %}
+
+{% if heading_level == 1 %}
+  {% set font_size = 'text-5xl' %}
+  {% set font_weight = 'font-black' %}
+{% elseif heading_level == 2 %}
+  {% set font_size = 'text-4xl' %}
+  {% set font_weight = 'font-extrabold' %}
+{% elseif heading_level == 3 %}
+  {% set font_size = 'text-3xl' %}
+  {% set font_weight = 'font-extrabold' %}
+{% elseif heading_level == 4 %}
+  {% set font_size = 'text-2xl' %}
+  {% set font_weight = 'font-bold' %}
+{% elseif heading_level == 5 %}
+  {% set font_size = 'text-xl' %}
+  {% set font_weight = 'font-bold' %}
+{% elseif heading_level == 6 %}
+  {% set font_size = 'text-xl' %}
+  {% set font_weight = 'font-semibold' %}
+{% else %}
+  {% set font_size = 'text-base' %}
+  {% set font_weight = 'font-normal' %}
+{% endif %}
+
+<h{{ heading_level }} class="{{ font_size }} {{ font_weight }} {{ margin_bottom }}">
   {% if heading_url %}
     {% include "@atoms/links/link/link.twig" with {
       "link_content": heading,
       "link_url": heading_url,
       "link_attributes": heading_link_attributes,
-      "link_base_class": heading_link_base_class,
-      "link_modifiers": heading_link_modifiers,
-      "link_blockname": heading_link_blockname|default(heading_base_class),
     } %}
   {% else %}
     {{ heading }}

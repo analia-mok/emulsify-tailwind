@@ -4,19 +4,15 @@
  * - link_content - the content of the link (typically text)
  * - link_url - the url this link should poing to
  * - link_attributes - array of attribute,value pairs
- * - link_base_class - the base class name
- * - link_modifiers - array of modifiers to add to the base classname
- * - link_blockname - blockname prepended to the base classname
  *
  * Available blocks:
  * - link_content - used to replace the content of the link
  *     Example: to insert the image component
  */
 #}
-{% set link_base_class = link_base_class|default('link') %}
 
 <a
-  {{ bem(link_base_class, link_modifiers, link_blockname) }}
+  class="underline text-indigo-700 hover:text-indigo-500 transition:colors duration-200"
   {% for attribute, value in link_attributes %}
     {{ attribute }}="{{ value }}"
   {% endfor %}
