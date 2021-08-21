@@ -17,24 +17,31 @@
 {% if heading_level == 1 %}
   {% set font_size = 'text-5xl' %}
   {% set font_weight = 'font-black' %}
+
 {% elseif heading_level == 2 %}
   {% set font_size = 'text-4xl' %}
   {% set font_weight = 'font-extrabold' %}
+
 {% elseif heading_level == 3 %}
   {% set font_size = 'text-3xl' %}
   {% set font_weight = 'font-extrabold' %}
+
 {% elseif heading_level == 4 %}
   {% set font_size = 'text-2xl' %}
   {% set font_weight = 'font-bold' %}
+
 {% elseif heading_level == 5 %}
   {% set font_size = 'text-xl' %}
   {% set font_weight = 'font-bold' %}
+
 {% elseif heading_level == 6 %}
   {% set font_size = 'text-xl' %}
   {% set font_weight = 'font-semibold' %}
+
 {% else %}
   {% set font_size = 'text-base' %}
   {% set font_weight = 'font-normal' %}
+
 {% endif %}
 
 <h{{ heading_level }} class="{{ font_size }} {{ font_weight }} {{ margin_bottom }}">
